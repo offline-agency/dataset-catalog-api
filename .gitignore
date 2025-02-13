@@ -1,0 +1,34 @@
+# Esegubili compilati
+*.exe
+*.out
+*.o
+*.a
+*.so
+
+# Directory di compilazione
+/build/
+/bin/
+/tmp/
+
+# Dipendenze mod e vendorizzate
+vendor/
+go.sum
+go.work
+go.work.sum
+
+# Cache Go
+*.test
+*.prof
+*.coverprofile
+*.cov
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+
+# File temporanei
+.DS_Store
+Thumbs.db
