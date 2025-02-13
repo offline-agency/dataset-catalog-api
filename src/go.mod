@@ -1,4 +1,4 @@
-module dcat-odps-poc-go
+module opendatahub.com/dataset-catalog-api
 
 go 1.23.3
 
