@@ -8,4 +8,4 @@ services:
     build:
       context: ../
       dockerfile: infrastructure/docker/Dockerfile
-      target: final
+      target: build

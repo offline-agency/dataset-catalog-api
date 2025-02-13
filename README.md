@@ -23,6 +23,7 @@ Ensure you have Go installed on your machine (Go 1.16+ recommended). You can dow
 
 2 Start the server:
    ```sh
+   cd src
    go run main.go
    ```
 
