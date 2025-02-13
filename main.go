@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 package main
 
 import (
@@ -254,11 +258,11 @@ func toODPS31(datasets []Dataset) map[string]interface{} {
 				"schemaLocationURL": "https://opendatahub.com/schema",
 			},
 			"infrastructure": map[string]interface{}{
-				"containerTool":    "Docker",
-				"platform":         "Kubernetes",
-				"region":           "eu-south-1",
+				"containerTool":     "Docker",
+				"platform":          "Kubernetes",
+				"region":            "eu-south-1",
 				"storageTechnology": "S3",
-				"storageType":      "object",
+				"storageType":       "object",
 			},
 			"lineage": map[string]interface{}{
 				"dataLineageOutput": "Lineage info",
@@ -465,11 +469,11 @@ func toODPS30(datasets []Dataset) map[string]interface{} {
 			"dataLineageOutput": "Lineage output info",
 		},
 		"infrastructure": map[string]interface{}{
-			"platform":         "Kubernetes",
-			"region":           "us-east",
+			"platform":          "Kubernetes",
+			"region":            "us-east",
 			"storageTechnology": "S3",
-			"storageType":      "object",
-			"containerTool":    "Docker",
+			"storageType":       "object",
+			"containerTool":     "Docker",
 		},
 		"build": map[string]interface{}{
 			"format":                     "docker",
@@ -692,11 +696,17 @@ func getPageNumber(r *http.Request) int {
 	return page
 }
 
+func healthcheck(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("OK"))
+}
+
 func main() {
 	http.HandleFunc("/dcat", dcatHandler)
 	http.HandleFunc("/odps", odpsHandler)
 	http.HandleFunc("/odps31", odps31Handler)
 	http.HandleFunc("/odps30", odps30Handler)
+	http.HandleFunc("/healthcheck", healthcheck)
 
 	fmt.Println("Server running on http://localhost:8878")
 	log.Fatal(http.ListenAndServe(":8878", nil))

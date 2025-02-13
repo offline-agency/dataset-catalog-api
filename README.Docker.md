@@ -1,3 +1,10 @@
+<!--
+SPDX-FileCopyrightText: 2024 NOI Techpark <digital@noi.bz.it>
+
+SPDX-License-Identifier: CC0-1.0
+-->
+
+
 ### Building and running your application
 
 When you're ready, start your application by running:
