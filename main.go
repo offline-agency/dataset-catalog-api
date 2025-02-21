@@ -593,7 +593,7 @@ func toODPS30(datasets []Dataset) map[string]interface{} {
 
 // --- Handlers ---
 
-// If format=yaml, it returns YAML; otherwise (default) it returns JSON.
+//dcatHandler has json as default and supports ?format=json.
 func dcatHandler(w http.ResponseWriter, r *http.Request) {
 	page := getPageNumber(r)
 	datasets, err := fetchDatasets(page)
@@ -625,6 +625,7 @@ func dcatHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+
 func odpsHandler(w http.ResponseWriter, r *http.Request) {
 	page := getPageNumber(r)
 	datasets, err := fetchDatasets(page)
@@ -643,6 +644,7 @@ func odpsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonData)
 }
 
+// odps31Handler has YAML as default and supports ?format=json.
 func odps31Handler(w http.ResponseWriter, r *http.Request) {
 	page := getPageNumber(r)
 	datasets, err := fetchDatasets(page)
@@ -652,15 +654,30 @@ func odps31Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	output := toODPS31(datasets)
-	jsonData, err := json.MarshalIndent(output, "", "  ")
-	if err != nil {
-		http.Error(w, "Error marshaling JSON", http.StatusInternalServerError)
-		return
+	format := r.URL.Query().Get("format")
+
+	if format == "json" {
+		// Return JSON if requested
+		jsonData, err := json.MarshalIndent(output, "", "  ")
+		if err != nil {
+			http.Error(w, "Error marshaling JSON", http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonData)
+	} else {
+		// Otherwise default to YAML
+		yamlData, err := yaml.Marshal(output)
+		if err != nil {
+			http.Error(w, "Error marshaling YAML", http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+		w.Write(yamlData)
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonData)
 }
 
+// odps30Handler has YAML as default and supports ?format=json.
 func odps30Handler(w http.ResponseWriter, r *http.Request) {
 	page := getPageNumber(r)
 	datasets, err := fetchDatasets(page)
@@ -670,13 +687,27 @@ func odps30Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	output := toODPS30(datasets)
-	jsonData, err := json.MarshalIndent(output, "", "  ")
-	if err != nil {
-		http.Error(w, "Error marshaling JSON", http.StatusInternalServerError)
-		return
+	format := r.URL.Query().Get("format")
+
+	if format == "json" {
+		// Return JSON if requested
+		jsonData, err := json.MarshalIndent(output, "", "  ")
+		if err != nil {
+			http.Error(w, "Error marshaling JSON", http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonData)
+	} else {
+		// Otherwise default to YAML
+		yamlData, err := yaml.Marshal(output)
+		if err != nil {
+			http.Error(w, "Error marshaling YAML", http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+		w.Write(yamlData)
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonData)
 }
 
 // getPageNumber extracts the "page" query parameter.
