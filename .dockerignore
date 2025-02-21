@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 NOI Techpark <digital@noi.bz.it>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 # Include any files or directories that you don't want to be copied to your
 # container here (e.g., local build artifacts, temporary files, etc.).
 #
