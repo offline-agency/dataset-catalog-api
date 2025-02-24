@@ -5,6 +5,7 @@ package handlers
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gopkg.in/yaml.v3"
@@ -12,12 +13,25 @@ import (
 )
 
 func DcatGinHandler(c *gin.Context) {
-	ds, err := fetchDatasets(1)
-	if err != nil || len(ds) == 0 {
-		c.String(http.StatusNotFound, "No data found")
-		return
-	}
-	output := transformers.ToDCAT(ConvertDatasets(ds))
+  pageStr := c.Query("page")
+  page := 1
+  if pageStr != "" {
+    if p, err := strconv.Atoi(pageStr); err == nil && p > 0 {
+      page = p
+    } else {
+      c.String(http.StatusNotFound, "No data found")
+      return
+    }
+  }
+
+  // Fetch paginated datasets.
+  resp, err := fetchDatasetsResponse(page)
+  if err != nil || resp == nil || len(resp.Items) == 0 {
+    c.String(http.StatusNotFound, "No data found")
+    return
+  }
+
+	output := transformers.ToDCAT(ConvertDatasets(resp.Items))
 	format := c.Query("format")
 	if format == "yaml" {
 		yamlData, err := yaml.Marshal(output)
