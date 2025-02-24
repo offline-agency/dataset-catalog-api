@@ -24,7 +24,7 @@ func ToODPS30(datasets []Dataset) map[string]interface{} {
 		"version":           "v1.0",
 		"categories":        ds.Category,
 		"standards":         []string{"Standard-Dev"},
-		"tags":              ds.ODHTags,
+		"tags":              []string{},
 		"brandSlogan":       BrandSlogan,
 		"type":              ds.Type,
 		"logoURL":           ds.Self,
@@ -45,8 +45,8 @@ func ToODPS30(datasets []Dataset) map[string]interface{} {
 	}
 
 	recommendedDataProducts := []string{
-		ds.ApiUrl + "/recommended/1",
-		ds.ApiUrl + "/recommended/2",
+		ds.Self + "/recommended/1",
+		ds.Self + "/recommended/2",
 	}
 
 	pricingPlansEn := []interface{}{
@@ -66,7 +66,7 @@ func ToODPS30(datasets []Dataset) map[string]interface{} {
 
 	dataOps := map[string]interface{}{
 		"data": map[string]interface{}{
-			"schemaLocationURL": ds.ApiUrl + "/schema",
+			"schemaLocationURL": ds.Self+ "/schema",
 		},
 		"lineage": map[string]interface{}{
 			"dataLineageTool":   "LineageTool",
@@ -84,8 +84,8 @@ func ToODPS30(datasets []Dataset) map[string]interface{} {
 			"hashType":                   "SHA256",
 			"checksum":                   "abc123",
 			"signatureType":              "PGP",
-			"scriptURL":                  ds.ApiUrl + "/build.sh",
-			"deploymentDocumentationURL": ds.ApiUrl + "/deploy",
+			"scriptURL":                  ds.Self + "/build.sh",
+			"deploymentDocumentationURL": ds.Self + "/deploy",
 		},
 	}
 
@@ -108,7 +108,7 @@ func ToODPS30(datasets []Dataset) map[string]interface{} {
 			"unit":      "%",
 			"monitoring": map[string]interface{}{
 				"type":      "Service Level",
-				"reference": ds.ApiUrl + "/monitoring",
+				"reference": ds.Self + "/monitoring",
 				"spec":      "SLA Spec",
 			},
 		},
@@ -132,7 +132,7 @@ func ToODPS30(datasets []Dataset) map[string]interface{} {
 			"unit":      "%",
 			"monitoring": map[string]interface{}{
 				"type":      "Quality",
-				"reference": ds.ApiUrl + "/quality",
+				"reference": ds.Self + "/quality",
 				"spec":      "Quality Spec",
 			},
 		},

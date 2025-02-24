@@ -24,7 +24,7 @@ func ToODPS31(datasets []Dataset) map[string]interface{} {
 		"productSeries":     ds.Shortname + " Series",
 		"standards":         []string{"Standard-Dev"},
 		"status":            "active",
-		"tags":              ds.ODHTags,
+		"tags":              []string{},
 		"type":              ds.Type,
 		"useCases": []map[string]interface{}{
 			{
@@ -70,14 +70,14 @@ func ToODPS31(datasets []Dataset) map[string]interface{} {
 	dataOps := map[string]interface{}{
 		"build": map[string]interface{}{
 			"checksum":                   "abc123",
-			"deploymentDocumentationURL": ds.ApiUrl + "/deploy",
+			"deploymentDocumentationURL": ds.Self + "/deploy",
 			"format":                     "docker",
 			"hashType":                   "SHA256",
-			"scriptURL":                  ds.ApiUrl + "/build.sh",
+			"scriptURL":                  ds.Self + "/build.sh",
 			"signatureType":              "PGP",
 		},
 		"data": map[string]interface{}{
-			"schemaLocationURL": ds.ApiUrl + "/schema",
+			"schemaLocationURL": ds.Self + "/schema",
 		},
 		"infrastructure": map[string]interface{}{
 			"containerTool":    "Docker",
@@ -97,7 +97,7 @@ func ToODPS31(datasets []Dataset) map[string]interface{} {
 			"dimension":    "Availability",
 			"displaytitle": []interface{}{map[string]interface{}{"en": "Availability"}},
 			"monitoring": map[string]interface{}{
-				"reference": ds.ApiUrl + "/monitoring",
+				"reference": ds.Self + "/monitoring",
 				"spec":      "SLA Spec",
 				"type":      "Service Level",
 			},
@@ -111,7 +111,7 @@ func ToODPS31(datasets []Dataset) map[string]interface{} {
 			"dimension":    "Accuracy",
 			"displaytitle": []interface{}{map[string]interface{}{"en": "Accuracy"}},
 			"monitoring": map[string]interface{}{
-				"reference": ds.ApiUrl + "/quality",
+				"reference": ds.Self + "/quality",
 				"spec":      "Quality Spec",
 				"type":      "Quality",
 			},
@@ -174,7 +174,7 @@ func ToODPS31(datasets []Dataset) map[string]interface{} {
 			},
 		},
 		"pricingPlans":            pricingPlans,
-		"recommendedDataProducts": []string{ds.ApiUrl + "/recommended/1", ds.ApiUrl + "/recommended/2"},
+		"recommendedDataProducts": []string{ds.Self + "/recommended/1", ds.Self + "/recommended/2"},
 		"support":                 support,
 	}
 
